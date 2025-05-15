@@ -1,0 +1,10 @@
+uproot
+awkward
+numpy
+matplotlib
+pandas
+scikit-learn
+minisom
+hdbscan
+torch
+torchvision

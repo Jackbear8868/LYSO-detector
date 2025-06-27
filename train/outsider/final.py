@@ -32,13 +32,13 @@ def outsider(df):
     scaler= joblib.load(ckpt / "scaler.pkl")
     # ---------- 2. 兩次分類 ----------
     pred_run1 = predict_one(df, ["S1","S2","S3"], scaler, svm, mlp)
-    pred_run2 = predict_one(df, ["S6","S5","S4"], scaler, svm, mlp)
+    pred_run2 = predict_one(df, ["S4","S3","S2"], scaler, svm, mlp)
     # ---------- 3. 合併唯一欄位 ----------
     df = df.copy()
     df["pred"] = "0"          # 先全部填 0（字串）
     # ⇣ 依照需求把不同 run 映射成「3 位數 ID」
     map1 = {1:"1", 2:"2", 3:"3"}
-    map2 = {1:"25", 2:"24", 3:"23"}
+    map2 = {1:"17", 2:"16", 3:"15"}
 
     # Run-1 結果寫進去
     mask1 = ~np.isnan(pred_run1)
@@ -48,28 +48,28 @@ def outsider(df):
     mask2 = ~np.isnan(pred_run2)
     df.loc[mask2, "pred"] = pd.Series(pred_run2[mask2]).map(map2).values
 
-    cmap = {"0":"gray", "1":"gold", "2":"limegreen", "3":"deepskyblue","23":"orchid", "24":"cyan", "25":"magenta"}
+    cmap = {"0":"gray", "1":"gold", "2":"limegreen", "3":"deepskyblue","17":"orchid", "16":"cyan", "15":"magenta"}
     colors = df["pred"].map(cmap).to_numpy()
 
     # ---------- 4.（可選）視覺化最終結果 ----------
-    # plot_3d(df, ["S1","S2","S3"], colors, "final_3d_s1-s3.png", "Merged result (gray=unclassified)")
-    # plot_3d(df, ["S6","S5","S4"], colors, "final_3d_s6-s4.png", "Merged result (gray=unclassified)")
+    plot_3d(df, ["S1","S2","S3"], colors, "final_3d_s1-s3.png", "Merged result (gray=unclassified)")
+    plot_3d(df, ["S4","S3","S2"], colors, "final_3d_s6-s4.png", "Merged result (gray=unclassified)")
 
     return df
 
 
 # ---------- 0. 讀資料 ----------
-df = pd.read_csv("6d_data.csv", dtype={"ID": str})
+df = pd.read_csv("4d_data.csv", dtype={"ID": str})
 
 df = outsider(df)
-df.to_csv("merge.csv", index=False)
+df.to_csv("4d_result.csv", index=False)
 
 # ---------- 2. 指定要看的 ID ----------
-target_ids = ["1", "2", "3", "23", "24", "25"]          # ← 你要評估哪幾種就填哪幾個
+# target_ids = ["1", "2", "3", "23", "24", "25"]          # ← 你要評估哪幾種就填哪幾個
 
-sub = df[df["ID"].isin(target_ids)].copy()
+# sub = df[df["ID"].isin(target_ids)].copy()
 
-# ---------- 3. 計算 Accuracy ----------
-acc = (sub["pred"] == sub["ID"]).mean()        # .mean() = 正確率
+# # ---------- 3. 計算 Accuracy ----------
+# acc = (sub["pred"] == sub["ID"]).mean()        # .mean() = 正確率
 
-print(f"Accuracy for IDs {target_ids}: {acc:.3f}")
+# print(f"Accuracy for IDs {target_ids}: {acc:.3f}")

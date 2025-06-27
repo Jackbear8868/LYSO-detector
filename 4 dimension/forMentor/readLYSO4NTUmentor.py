@@ -54,14 +54,5 @@ df = pd.DataFrame({
     'ID': ID
 })
 
-df = df.drop(columns=['S1', 'S2', 'S3', 'S4'])
-df[['ID']] = df[['ID']].astype(int)
-df.to_csv("solution.csv", index=False)
-
-min_id = df['ID'].min()
-max_id = df['ID'].max()
-print(min_id, max_id)
-df['ID'] = np.random.randint(low=min_id, high=max_id + 1, size=len(df))
-df.to_csv("submission.csv", index=False)
-
-print("Saved as data.csv")
+df.to_csv("4d_data.csv", index=False)
+print("Saved as 4d_data.csv")

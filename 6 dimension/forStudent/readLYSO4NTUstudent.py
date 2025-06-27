@@ -38,7 +38,7 @@ plt.ylabel('S3')
 plt.xlim([sgmin,sgmax])
 plt.ylim([sgmin,sgmax])
 plt.scatter(s2,s3,marker='.',s=1,linewidths=0)
-plt.show()
+plt.savefig("S3vsS2.png")
 
 
 import pandas as pd
@@ -53,5 +53,5 @@ df = pd.DataFrame({
     'S6': s6,
 })
 
-df.to_csv("private_data.csv", index=False)
-print("Saved as private_data.csv")
+df.to_csv("6d_data.csv", index=False)
+print("Saved as 6d_data.csv")

@@ -4,7 +4,10 @@ numpy
 matplotlib
 pandas
 scikit-learn
+scikit-learn-intelex
 minisom
 hdbscan
 torch
 torchvision
+joblib
+seaborn
